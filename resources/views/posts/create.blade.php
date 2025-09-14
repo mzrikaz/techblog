@@ -10,20 +10,34 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="post" action="{{ route('posts.store') }}">
+                    <form method="POST" action="{{ route('posts.store') }}">
                         @csrf
 
                         <div>
-                            <label>Title</label>
-                            <input type="text" name="title" class="text-black" value="">
+                            <x-input-label for="title" :value="__('Title')" />
+                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" required />
+                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
-                        <div>
-                            <label>Body</label>
-                            <textarea name="body" class="text-black">
-                             </textarea>
+                        <div class="mt-4">
+                            <x-input-label for="body" :value="__('Body')" />
 
-                            <input type="submit" value="Create" role="button" class="p-3 bg-black" />
+                            <x-text-area id="body" class="block mt-1 w-full" name="body" />
+
+                            <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                        </div>
+
+                        <select name="category_id" class="text-black">
+                            <option>Select a Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+
+                        <div class="flex items-center justify-end mt-4">
+                            <x-primary-button class="ms-3">
+                                {{ __('Create') }}
+                            </x-primary-button>
                         </div>
                     </form>
                 </div>

@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Posts') }}
+            {{ __('Categories') }}
         </h2>
     </x-slot>
 
@@ -11,18 +11,18 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-end py-2">
-                        <x-widgets.primary-button text="Create" :href="route('posts.create')" />
+                        <x-widgets.primary-button text="Create Category" :href="route('categories.create')" />
                     </div>
                     <x-responsive-table>
                         <x-slot name="head">
                             <tr>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
+                                    Name
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Content
+                                    Slug
                                 </th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -37,24 +37,24 @@
                             </tr>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($posts as $post)
+                            @foreach ($categories as $category)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {{ $post->title }}
+                                        {{ $category->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $post->body }}
+                                        {{ $category->slug }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $post->created_at->format('M d, Y h:m a') }}
+                                        {{ $category->created_at->format('M d, Y h:m a') }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
+                                        <a href="{{ route('posts.edit', ['post' => $category->id]) }}"
                                             class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <form method="POST"
-                                            action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+                                            action="{{ route('posts.destroy', ['post' => $category->id]) }}">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit"

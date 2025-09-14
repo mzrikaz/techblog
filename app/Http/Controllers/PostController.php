@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::where('is_active', 1)->get();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -32,6 +34,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'string|required',
+            'body' => 'string|required',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
         $post = Post::create($request->all());
 
         return redirect(route('posts.edit', ['post' => $post->id]));
