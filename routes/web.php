@@ -7,8 +7,9 @@ use App\Http\Controllers\PostContoller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeContoller::class, 'index']);
+Route::get('/', [HomeContoller::class, 'index'])->name('home');
 Route::prefix('posts')->group(function() {
+    Route::get('/', [PostContoller::class, 'index'])->name('landing.posts.index');
     Route::get('/{id}', [PostContoller::class, 'show'])->name('landing.posts.show');
 });
 
