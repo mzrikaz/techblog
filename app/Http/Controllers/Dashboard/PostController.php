@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class PostController extends Controller
     {
         $posts = Post::all();
 
-        return view('posts.index', compact('posts'));
+        return view('dashboard.posts.index', compact('posts'));
     }
 
     /**
@@ -26,7 +27,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::where('is_active', 1)->get();
-        return view('posts.create', compact('categories'));
+        return view('dashboard.posts.create', compact('categories'));
     }
 
     /**
@@ -59,7 +60,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::find($id);
-        return view('posts.edit', compact('post'));
+        return view('dashboard.posts.edit', compact('post'));
     }
 
     /**

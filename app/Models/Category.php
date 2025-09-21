@@ -10,7 +10,7 @@ class Category extends Model
     protected $fillable = [
         'name','slug','description','is_active',
     ];
-
+    
     public function posts(): HasMany {
         return $this->hasMany(Post::class);
     }
