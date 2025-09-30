@@ -10,19 +10,28 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('posts.store') }}">
+
+                    @if (session('success'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div>
                             <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" required />
+                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" value="{{ old('title') ?? '' }}" required />
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
                         <div class="mt-4">
                             <x-input-label for="body" :value="__('Body')" />
 
-                            <x-text-area id="body" class="block mt-1 w-full" name="body" />
+                            <x-text-area id="body" class="block mt-1 w-full" name="body"> 
+                                {{ old('body') ?? '' }}
+                            </x-text-area>
 
                             <x-input-error :messages="$errors->get('body')" class="mt-2" />
                         </div>
@@ -30,9 +39,18 @@
                         <select name="category_id" class="text-black">
                             <option>Select a Category</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
+
+                        <div class="mt-4">
+                            <x-input-label for="featured_image" :value="__('Featured Image')" />
+
+                            <x-text-input id="featured_image" class="block mt-1 w-full" type="file" name="featured_image" accept="image/jpeg, image/jpg, image/png" />
+
+                            <x-input-error :messages="$errors->get('featured_image')" class="mt-2" />
+
+                        </div>
 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ms-3">

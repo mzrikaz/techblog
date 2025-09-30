@@ -11,7 +11,7 @@
         <div class="grid md:grid-cols-3 gap-8">
             <!-- Blog Card -->
             @foreach ($latestPosts as $post)
-                <x-landing.widgets.post :title="$post->title" :body="$post->body" :id="$post->id" />
+                <x-landing.widgets.post :title="$post->title" :body="$post->body" :id="$post->id" :image="$post->featured_image ? Storage::url($post->featured_image) : null" />
             @endforeach
         </div>
     </section>

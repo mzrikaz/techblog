@@ -15,17 +15,42 @@
                         @method('PUT')
 
                         <div>
-                            <label>Title</label>
-                            <input type="text" name="title" class="text-black" value="{{ $post->title }}" />
+                            <x-input-label for="title" :value="__('Title')" />
+                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" required value="{{ $post->title }}" />
+                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
-                        <div>
-                            <label>Body</label>
-                            <textarea name="body" class="text-black">
-                            {{ $post->body }}
-                        </textarea>
+                        <div class="mt-4">
+                            <x-input-label for="body" :value="__('Body')" />
 
-                            <input type="submit" value="Update" role="button" class="p-3 bg-black" />
+                            <x-text-area id="body" class="block mt-1 w-full" name="body">
+                                {{ $post->body }}
+                            </x-text-area>
+
+                            <x-input-error :messages="$errors->get('body')" class="mt-2" />
+                        </div>
+
+                        <select name="category_id" class="text-black">
+                            <option>Select a Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ $post->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+
+                        <div class="mt-4">
+                            <x-input-label for="featured_image" :value="__('Featured Image')" />
+
+                            <x-text-input id="featured_image" class="block mt-1 w-full" type="file" name="featured_image" accept="image/jpeg, image/jpg, image/png" />
+
+                            <x-input-error :messages="$errors->get('featured_image')" class="mt-2" />
+
+                        </div>
+
+                        <div class="flex items-center justify-end mt-4">
+                            <x-primary-button class="ms-3">
+                                {{ __('Update') }}
+                            </x-primary-button>
+                        </div>
                         </div>
                     </form>
                 </div>

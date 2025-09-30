@@ -7,8 +7,6 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
-use function Pest\Laravel\json;
-
 class PostController extends Controller
 {
     /**
@@ -39,11 +37,19 @@ class PostController extends Controller
             'title' => 'string|required',
             'body' => 'string|required',
             'category_id' => 'required|exists:categories,id',
+            'featured_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Optional, must be an image and max size 2MB
         ]);
 
-        $post = Post::create($request->all());
+        $data = $request->except('featured_image');
 
-        return redirect(route('posts.edit', ['post' => $post->id]));
+        if ($request->hasFile('featured_image')) {
+            $data['featured_image'] = $request->file('featured_image')->store('featured_images', 'public');
+            $data['title'] = ucfirst($request->title);
+        }
+
+        $post = Post::create($data);
+
+        return back()->with('success', 'Post created successfully.');
     }
 
     /**
@@ -60,7 +66,8 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::find($id);
-        return view('dashboard.posts.edit', compact('post'));
+        $categories = Category::where('is_active', 1)->get();
+        return view('dashboard.posts.edit', compact('post', 'categories'));
     }
 
     /**

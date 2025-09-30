@@ -43,7 +43,7 @@
                                         {{ $post->title }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $post->body }}
+                                        {{ substr($post->body, 0, 45) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {{ $post->created_at->format('M d, Y h:m a') }}
