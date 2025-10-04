@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = auth()->user()->posts()->with('category')->get();
 
         return view('dashboard.posts.index', compact('posts'));
     }
